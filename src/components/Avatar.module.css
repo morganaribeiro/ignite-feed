@@ -1,0 +1,14 @@
+.avatar {
+  height: 3rem; 
+  width: 3rem; 
+  border-radius: 8px; 
+}
+
+.avatarWithBorder {
+  /* box-sizing: initial; evita de comprimir a imagem quando aplica border, margin, outline */
+  height: calc(3rem + 12px); /* 12px = 8px das bordas + 4px outline */
+  width: calc(3rem + 12px); /* 12px = 8px das bordas + 4px outline */
+  border-radius: 8px; /* bordas em geral é o único que não usa REM */
+  border: 4px solid var(--gray-800);
+  outline: 2px solid var(--green-500);
+}

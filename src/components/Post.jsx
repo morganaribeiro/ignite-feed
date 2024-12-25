@@ -24,6 +24,7 @@ export function Post({ author, publishedAt, content }) {
     };
 
     function handleNewCommentChange() {
+        event.target.setCustomValidity('');
         setNewCommentText(event.target.value);
     };
 
@@ -34,6 +35,12 @@ export function Post({ author, publishedAt, content }) {
         // imutabilidade => as variáveis não sofrem mutação, nós criamos um novo valor (um novo espaço na memória)
         setComments(commentsWithoutDeletedOne);
     }
+
+    function handleNewCommentInvalid() {
+        event.target.setCustomValidity("Esse campo é obrigatório!");
+    }
+
+    const isNewCommentEmpty = newCommentText.length === 0;
 
     return (
         <article className={styles.post}>
@@ -73,10 +80,14 @@ export function Post({ author, publishedAt, content }) {
                     name="comment"
                     placeholder="Deixe seu comentário"
                     value={newCommentText}
+                    onInvalid={handleNewCommentInvalid}
                     onChange={handleNewCommentChange}
+                    required
                 />
                 <footer>
-                    <button type="submit">Publicar</button>
+                    <button type="submit" disabled={isNewCommentEmpty}>
+                        Publicar
+                    </button>
                 </footer>
             </form>
             <div className={styles.commentList}>

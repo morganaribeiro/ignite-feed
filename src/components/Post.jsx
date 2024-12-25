@@ -6,7 +6,7 @@ import styles from "./Post.module.css";
 import { useState } from "react";
 
 export function Post({ author, publishedAt, content }) {
-    const [coments, setComments] = useState(["Post muito bacana, hein?!"]);
+    const [comments, setComments] = useState(["Post muito bacana, hein?!"]);
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'ás' HH:mm'h'", {
       locale: ptBR
     });
@@ -19,13 +19,21 @@ export function Post({ author, publishedAt, content }) {
 
     function handleCreateNewComment() {
         event.preventDefault();
-        setComments([...coments, newCommentText]);
+        setComments([...comments, newCommentText]);
         setNewCommentText("");
     };
 
     function handleNewCommentChange() {
         setNewCommentText(event.target.value);
     };
+
+    function deleteComment(commentToDelete){
+        const commentsWithoutDeletedOne = comments.filter(comment => {
+            return comment !== commentToDelete;
+        })
+        // imutabilidade => as variáveis não sofrem mutação, nós criamos um novo valor (um novo espaço na memória)
+        setComments(commentsWithoutDeletedOne);
+    }
 
     return (
         <article className={styles.post}>
@@ -72,8 +80,14 @@ export function Post({ author, publishedAt, content }) {
                 </footer>
             </form>
             <div className={styles.commentList}>
-                {coments.map(comment => {
-                    return <Comment key={comment} content={comment} />
+                {comments.map(comment => {
+                    return (
+                        <Comment 
+                            key={comment} 
+                            content={comment} 
+                            onDeleteComment={deleteComment} 
+                        />
+                    )
                 })}
             </div>
         </article>
